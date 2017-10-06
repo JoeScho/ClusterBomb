@@ -1,0 +1,41 @@
+import React, { Component } from 'react';
+import { Text, View, Image, StyleSheet } from 'react-native';
+
+export default class Splash extends Component {
+  render () {
+    return (
+      <View style={styles.wrapper}>
+        <View style={styles.titleWrapper}>
+          <Image source={require('../images/logo.png')} />
+          <Text style={styles.title}>Clusterbomb</Text>
+        </View>
+        <View>
+          <Text style={styles.subTitle}>Powered by React Native</Text>
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  wrapper: {
+    backgroundColor: '#27ae60',
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  title: {
+    color: 'white',
+    fontSize: 35,
+    fontWeight: 'bold'
+  },
+  subTitle: {
+    color: 'white',
+    fontWeight: '200',
+    paddingBottom: 20
+  },
+  titleWrapper: {
+    justifyContent: 'center',
+    flex: 1
+  }
+});

@@ -1,0 +1,3 @@
+rootProject.name = 'ClusterBomb'
+
+include ':app'
