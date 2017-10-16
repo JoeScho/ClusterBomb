@@ -11,8 +11,6 @@ import {
 
 export default class Login extends Component {
   render () {
-    // const { navigate } = this.props.navigation;
-
     return (
       <View style={styles.container}>
         <StatusBar barStyle='light-content' />
