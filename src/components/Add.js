@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { Text, View, Image, StyleSheet } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  KeyboardAvoidingView
+} from 'react-native';
 
-export class SplashScreen extends Component {
+export class AddScreen extends Component {
   render () {
     return (
-      <View behavior="padding" style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.logoContainer}>
           <Image
             style={styles.logo}
@@ -12,12 +18,12 @@ export class SplashScreen extends Component {
           />
           <Text style={styles.title}>ClusterBomb</Text>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     flex: 1,
     backgroundColor: '#3498db'
@@ -40,4 +46,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     opacity: 0.9
   }
-});
+}

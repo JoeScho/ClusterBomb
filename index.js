@@ -1,27 +1,52 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
   Text,
-  View
+  View,
+  Button,
+  Image,
+  TouchableOpacity
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
-import Login from './src/components/Login.js';
-import Home from './src/components/Home.js';
+import { SplashScreen } from './src/components/Splash.js';
+import { HomeScreen } from './src/components/Home.js';
+import { AddScreen } from './src/components/Add.js';
 
-const App = StackNavigator({
-  Login: { screen: Login },
-  Home: { screen: Home }
-});
+export default class MainScreen extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      component: <SplashScreen />
+    }
+  }
+  static navigationOptions = {
+    title: 'ClusterBomb'
+  };
 
+  componentDidMount () {
+    this.timeoutHandle = setTimeout(() => {
+      this.setState(
+        { component: <HomeScreen navigation={this.props.navigation} /> }
+      )
+    }, 2000);
+  }
 
-export default class ClusterBomb extends Component {
+  componentWillUnmount () {
+    clearTimeout(this.timeoutHandle);
+  }
+
   render () {
     return (
-      <Login />
+      this.state.component
     );
   }
 }
+
+export const ClusterBomb = StackNavigator({
+  Main: { screen: MainScreen },
+  Home: { screen: HomeScreen },
+  Add: { screen: AddScreen }
+});
 
 AppRegistry.registerComponent('ClusterBomb', () => ClusterBomb);
