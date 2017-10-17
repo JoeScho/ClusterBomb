@@ -7,7 +7,8 @@ import {
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
-  Button
+  Button,
+  AsyncStorage
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
 import Slider from 'react-native-slider';
@@ -18,7 +19,12 @@ export class AddScreen extends Component {
     super();
 
     this.state = {
-      value: 0
+      date: buildDate(),
+      time: buildTime(),
+      duration: 30,
+      painLevel: 5,
+      medication: 'None',
+      medTime: 15
     };
   };
   static navigationOptions = {
@@ -60,7 +66,7 @@ export class AddScreen extends Component {
           <View style={styles.centered}>
             <Slider
               style={styles.slider}
-              value={0}
+              value={this.state.duration}
               minimumValue={0}
               maximumValue={200}
               step={5}
@@ -70,7 +76,7 @@ export class AddScreen extends Component {
           <View style={styles.centered}>
             <Slider
               style={styles.slider}
-              value={0}
+              value={this.state.painLevel}
               minimumValue={0}
               maximumValue={10}
               step={1}
@@ -80,13 +86,14 @@ export class AddScreen extends Component {
           <View style={styles.centered}>
             <TextInput
               style={styles.input}
-              placeholder='i.e. Sumatriptan Injection' />
+              placeholder='i.e. Sumatriptan Injection'
+              onChangeText={(medication) => { this.setState({ medication }) }} />
           </View>
           <Text style={styles.text}>Time to Take Effect: {this.state.medTime} minutes</Text>
           <View style={styles.centered}>
             <Slider
               style={styles.slider}
-              value={0}
+              value={this.state.medTime}
               minimumValue={0}
               maximumValue={120}
               step={5}
@@ -98,14 +105,46 @@ export class AddScreen extends Component {
             title='SAVE'
             color='#fff'
             onPress={() => {
-              save();
-              this.props.navigation.dispatch(NavigationActions.back());
+              save(this.state, () => { alert('saved') });
+              navigate('Home');
             }}
           />
         </View>
       </ScrollView>
     );
   }
+}
+
+function save (state, cb) {
+  const headache = {
+    Date: state.date,
+    Time: state.time,
+    Duration: state.duration,
+    PainLevel: state.painLevel,
+    Medication: state.medication,
+    TimeToWork: state.medTime
+  }
+
+  AsyncStorage.setItem(`${state.date}T${state.time}`, JSON.stringify(headache), cb);
+}
+
+function buildDate () {
+  const today = new Date();
+
+  const dd = today.getDate();
+  const mm = today.getMonth();
+  const yyyy = today.getFullYear();
+
+  return `${dd}-${mm}-${yyyy}`;
+}
+
+function buildTime () {
+  const today = new Date();
+
+  const HH = today.getHours();
+  const mm = today.getMinutes();
+
+  return `${HH}:${mm}`;
 }
 
 const styles = StyleSheet.create({

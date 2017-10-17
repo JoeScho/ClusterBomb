@@ -5,18 +5,49 @@ import {
   StyleSheet,
   Button,
   Image,
-  ScrollView
+  ScrollView,
+  AsyncStorage,
+  ListView,
+  RefreshControl
 } from 'react-native';
 
 export class HomeScreen extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      headaches: 'helloworld'
+    }
+  }
+
+  componentDidMount () {
+    this._refresh();
+  }
+
+  _refresh () {
+    AsyncStorage.getAllKeys((_err, keys) => {
+      if (keys) {
+        AsyncStorage.multiGet(keys, (__err, data) => {
+          this.setState({ 'headaches': data });
+        });
+      } else {
+        this.setState({ 'headaches': 'No data' });
+      }
+    });
+  }
+
   render () {
     const { navigate } = this.props.navigation;
 
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Text style={styles.text}>Log a headache to get started</Text>
-          <Image source={require('../images/chart.png')} style={styles.graph} />
+          <Text style={styles.text}>
+            Headaches:
+            {this.state.headaches
+              ? this.state.headaches
+              : 'Log a headache to get started'}
+          </Text>
         </ScrollView>
         <View style={styles.buttonContainer}>
           <Button
@@ -45,7 +76,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     color: '#fff',
-    paddingVertical: 20
+    padding: 20
   },
   graph: {
     height: 125,
