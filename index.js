@@ -30,7 +30,7 @@ export default class MainScreen extends Component {
       this.setState(
         { component: <HomeScreen navigation={this.props.navigation} /> }
       )
-    }, 2000);
+    }, 100);
   }
 
   componentWillUnmount () {

@@ -9,7 +9,9 @@ import {
   RefreshControl
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-// import Chart from 'react-native-chart';
+import { Bar } from 'react-native-pathjs-charts'
+import chartOpts from '../js/barChartOpts';
+import getChartData from '../js/barChartData';
 
 export class HomeScreen extends Component {
   constructor() {
@@ -20,7 +22,7 @@ export class HomeScreen extends Component {
     }
   }
 
-  componentDidMount () {
+  componentWillMount () {
     this._refresh();
   }
 
@@ -30,11 +32,14 @@ export class HomeScreen extends Component {
       AsyncStorage.multiGet(keys, (__err, data) => {
         const headaches = [];
         data.forEach((headache) => {
-          headaches.push(JSON.parse(headache[1]))
-        })
+          headaches.push(JSON.parse(headache[1]));
+        });
+
         this.setState({ refreshing: false });
         this.setState({ headaches });
+        this.setState({ chartData: getChartData(headaches) });
         this._setMarkedDates();
+        this.setState({ chartOpts: chartOpts(headaches.length) });
       });
     });
   }
@@ -62,6 +67,9 @@ export class HomeScreen extends Component {
           />
         </View>
         <ScrollView
+          showsHorizontalScrollIndicator={false}
+          directionalLockEnabled={true}
+          centerContent={true}
           refreshControl={
             <RefreshControl
               onRefresh={this._refresh.bind(this)}
@@ -69,11 +77,19 @@ export class HomeScreen extends Component {
             />
           }>
           <View style={styles.calendarContainer}>
+            <Bar
+              data={this.state.chartData}
+              options={this.state.chartOpts}
+              accessorKey='count'
+            />
             <Calendar
               style={styles.calendar}
               markedDates={this.state.markedDates}
               onDayPress={(day) => {
-                navigate('Add', { refresh: this._refresh.bind(this), date: day.dateString })
+                navigate('Add', {
+                  refresh: this._refresh.bind(this),
+                  date: day.dateString
+                });
               }}
             />
           </View>

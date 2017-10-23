@@ -14,6 +14,7 @@
 		"react-native-calendars": "^1.7.1",
 		"react-native-chart": "^1.0.8-beta",
 		"react-native-datepicker": "^1.6.0",
+		"react-native-pathjs-charts": "0.0.31",
 		"react-native-slider": "^0.11.0",
 		"react-navigation": "^1.0.0-beta.15"
 	},
