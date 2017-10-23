@@ -1,17 +1,21 @@
 {
-	"name": "ClusterBomb",
+	"name": "clusterbomb",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"start": "node node_modules/react-native/local-cli/cli.js start",
-		"test": "jest"
+		"start": "NODE_PATH=. node node_modules/react-native/local-cli/cli.js start",
+		"test": "NODE_PATH=. jest"
 	},
 	"dependencies": {
+		"i": "^0.3.6",
+		"npm": "^5.5.1",
 		"react": "16.0.0-beta.5",
 		"react-native": "0.49.1",
+		"react-native-calendars": "^1.7.1",
+		"react-native-chart": "^1.0.8-beta",
 		"react-native-datepicker": "^1.6.0",
 		"react-native-slider": "^0.11.0",
-		"react-navigation": "^1.0.0-beta.13"
+		"react-navigation": "^1.0.0-beta.15"
 	},
 	"devDependencies": {
 		"babel-jest": "21.2.0",

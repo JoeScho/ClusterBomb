@@ -4,19 +4,19 @@ import {
   Text,
   StyleSheet,
   Button,
-  Image,
   ScrollView,
   AsyncStorage,
-  ListView,
   RefreshControl
 } from 'react-native';
+import { Calendar } from 'react-native-calendars';
+// import Chart from 'react-native-chart';
 
 export class HomeScreen extends Component {
   constructor() {
     super();
 
     this.state = {
-      headaches: 'helloworld'
+      refreshing: false
     }
   }
 
@@ -25,15 +25,28 @@ export class HomeScreen extends Component {
   }
 
   _refresh () {
-    AsyncStorage.getAllKeys((_err, keys) => {
-      if (keys) {
-        AsyncStorage.multiGet(keys, (__err, data) => {
-          this.setState({ 'headaches': data });
-        });
-      } else {
-        this.setState({ 'headaches': 'No data' });
-      }
+    this.setState({ refreshing: true });
+    AsyncStorage.getAllKeys((err, keys) => {
+      AsyncStorage.multiGet(keys, (__err, data) => {
+        const headaches = [];
+        data.forEach((headache) => {
+          headaches.push(JSON.parse(headache[1]))
+        })
+        this.setState({ refreshing: false });
+        this.setState({ headaches });
+        this._setMarkedDates();
+      });
     });
+  }
+
+  _setMarkedDates () {
+    const markedDates = {};
+
+    this.state.headaches.forEach((headache) => {
+      markedDates[headache.Date] = { selected: true, marked: true }
+    });
+
+    this.setState({ markedDates });
   }
 
   render () {
@@ -41,19 +54,37 @@ export class HomeScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <ScrollView>
-          <Text style={styles.text}>
-            Headaches:
-            {this.state.headaches
-              ? this.state.headaches
-              : 'Log a headache to get started'}
-          </Text>
-        </ScrollView>
         <View style={styles.buttonContainer}>
           <Button
             title='LOG A HEADACHE'
             color='#fff'
-            onPress={() => { navigate('Add') }}
+            onPress={() => { navigate('Add', { refresh: this._refresh.bind(this) }) }}
+          />
+        </View>
+        <ScrollView
+          refreshControl={
+            <RefreshControl
+              onRefresh={this._refresh.bind(this)}
+              refreshing={this.state.refreshing}
+            />
+          }>
+          <View style={styles.calendarContainer}>
+            <Calendar
+              style={styles.calendar}
+              markedDates={this.state.markedDates}
+              onDayPress={(day) => {
+                navigate('Add', { refresh: this._refresh.bind(this), date: day.dateString })
+              }}
+            />
+          </View>
+        </ScrollView>
+        <View style={styles.buttonContainer}>
+          <Button
+            title='SETTINGS'
+            color='#fff'
+            onPress={() => {
+              navigate('Settings', { refresh: this._refresh.bind(this) })
+            }}
           />
         </View>
       </View>
@@ -74,12 +105,14 @@ const styles = StyleSheet.create({
     height: 50
   },
   text: {
-    textAlign: 'center',
     color: '#fff',
     padding: 20
   },
-  graph: {
-    height: 125,
+  calendar: {
     width: 300
+  },
+  calendarContainer: {
+    padding: 10
   }
 });
+

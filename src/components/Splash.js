@@ -39,5 +39,8 @@ const styles = StyleSheet.create({
     width: 200,
     textAlign: 'center',
     opacity: 0.9
+  },
+  progress: {
+    height: 50
   }
 });

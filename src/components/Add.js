@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Image,
   Text,
   TextInput,
   ScrollView,
   KeyboardAvoidingView,
   Button,
-  AsyncStorage
+  AsyncStorage,
+  Alert
 } from 'react-native';
 import DatePicker from 'react-native-datepicker'
 import Slider from 'react-native-slider';
@@ -43,7 +43,7 @@ export class AddScreen extends Component {
               style={styles.picker}
               date={this.state.date}
               mode="date"
-              format="DD-MM-YYYY"
+              format="YYYY-MM-DD"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               onDateChange={(date) => { this.setState({ date }) }}
@@ -105,8 +105,9 @@ export class AddScreen extends Component {
             title='SAVE'
             color='#fff'
             onPress={() => {
-              save(this.state, () => { alert('saved') });
-              navigate('Home');
+              save(this.state, () => { Alert.alert('Saved') });
+              this.props.navigation.state.params.refresh();
+              this.props.navigation.dispatch(NavigationActions.back());
             }}
           />
         </View>
@@ -125,17 +126,24 @@ function save (state, cb) {
     TimeToWork: state.medTime
   }
 
-  AsyncStorage.setItem(`${state.date}T${state.time}`, JSON.stringify(headache), cb);
+  AsyncStorage.setItem(`${headache.Date}T${headache.Time}`, JSON.stringify(headache), cb);
 }
 
 function buildDate () {
+  // if (this.props.navigation.state.params.date) {
+  //   return this.props.navigation.state.params.date;
+  // }
+
   const today = new Date();
 
   const dd = today.getDate();
-  const mm = today.getMonth();
+  const mm = today.getMonth() + 1 < 10
+    ? `0${today.getMonth() + 1}`
+    : today.getMonth() + 1;
+
   const yyyy = today.getFullYear();
 
-  return `${dd}-${mm}-${yyyy}`;
+  return `${yyyy}-${mm}-${dd}`;
 }
 
 function buildTime () {

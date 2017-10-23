@@ -12,6 +12,7 @@ import { StackNavigator } from 'react-navigation';
 import { SplashScreen } from './src/components/Splash.js';
 import { HomeScreen } from './src/components/Home.js';
 import { AddScreen } from './src/components/Add.js';
+import { SettingsScreen } from './src/components/Settings.js';
 
 export default class MainScreen extends Component {
   constructor(props) {
@@ -46,7 +47,8 @@ export default class MainScreen extends Component {
 export const ClusterBomb = StackNavigator({
   Main: { screen: MainScreen },
   Home: { screen: HomeScreen },
-  Add: { screen: AddScreen }
+  Add: { screen: AddScreen },
+  Settings: { screen: SettingsScreen }
 });
 
 AppRegistry.registerComponent('ClusterBomb', () => ClusterBomb);
