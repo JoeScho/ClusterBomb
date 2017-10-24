@@ -2,6 +2,57 @@
 
 module.exports = getChartData;
 
+const demoData = [
+  [{
+    "count": 12,
+    "name": "Jan"
+  }],
+  [{
+    "count": 16,
+    "name": "Feb"
+  }],
+  [{
+    "count": 14,
+    "name": "Mar"
+  }],
+  [{
+    "count": 2,
+    "name": "Apr"
+  }],
+  [{
+    "count": 4,
+    "name": "May"
+  }],
+  [{
+    "count": 0,
+    "name": "Jun"
+  }],
+  [{
+    "count": 0,
+    "name": "Jul"
+  }],
+  [{
+    "count": 0,
+    "name": "Aug"
+  }],
+  [{
+    "count": 3,
+    "name": "Sep"
+  }],
+  [{
+    "count": 6,
+    "name": "Oct"
+  }],
+  [{
+    "count": 12,
+    "name": "Nov"
+  }],
+  [{
+    "count": 14,
+    "name": "Dec"
+  }]
+];
+
 function getChartData (headacheData) {
   const res = [];
 
@@ -36,15 +87,21 @@ function getChartData (headacheData) {
   }
 
   headacheData.forEach((headache) => {
-    counter[headache.Month]++;
+    if ((new Date()).getFullYear().toString() === headache.Date.split('-')[0]) {
+      counter[headache.Month]++;
+    }
   });
 
-  for (let i = 0; i < 11; i++) {
+  let hasData = false;
+
+  for (let i = 0; i <= 11; i++) {
+    if (counter[i] > 0) hasData = true;
+
     res.push([{
       count: counter[i],
       name: months[i]
     }]);
   }
 
-  return res;
+  return hasData ? res : demoData;
 }

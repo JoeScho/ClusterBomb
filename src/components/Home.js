@@ -9,7 +9,7 @@ import {
   RefreshControl
 } from 'react-native';
 import { Calendar } from 'react-native-calendars';
-import { Bar } from 'react-native-pathjs-charts'
+import { Bar } from 'react-native-pathjs-charts';
 import chartOpts from '../js/barChartOpts';
 import getChartData from '../js/barChartData';
 
@@ -38,8 +38,8 @@ export class HomeScreen extends Component {
         this.setState({ refreshing: false });
         this.setState({ headaches });
         this.setState({ chartData: getChartData(headaches) });
-        this._setMarkedDates();
         this.setState({ chartOpts: chartOpts(headaches.length) });
+        this._setMarkedDates();
       });
     });
   }
@@ -76,7 +76,13 @@ export class HomeScreen extends Component {
               refreshing={this.state.refreshing}
             />
           }>
-          <View style={styles.calendarContainer}>
+          <View style={styles.innerContainer}>
+            <Text style={styles.heading}>
+              Welcome to ClusterBomb!
+            </Text>
+            <Text style={styles.text}>
+              Keep track of your headaches
+            </Text>
             <Bar
               data={this.state.chartData}
               options={this.state.chartOpts}
@@ -122,13 +128,23 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    padding: 20
+    textAlign: 'center'
+  },
+  heading: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '700',
+    textAlign: 'center'
   },
   calendar: {
     width: 300
   },
-  calendarContainer: {
+  innerContainer: {
     padding: 10
+  },
+  chart: {
+    width: 200,
+    height: 200,
   }
 });
 

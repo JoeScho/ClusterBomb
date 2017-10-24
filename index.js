@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  Text,
-  View,
   Button,
-  Image,
-  TouchableOpacity
+  StyleSheet
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { NavigationActions } from 'react-navigation'
 
 import { SplashScreen } from './src/components/Splash.js';
 import { HomeScreen } from './src/components/Home.js';
@@ -17,38 +15,57 @@ import { SettingsScreen } from './src/components/Settings.js';
 export default class MainScreen extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      component: <SplashScreen />
-    }
   }
-  static navigationOptions = {
-    title: 'ClusterBomb'
-  };
 
   componentDidMount () {
-    this.timeoutHandle = setTimeout(() => {
-      this.setState(
-        { component: <HomeScreen navigation={this.props.navigation} /> }
-      )
-    }, 100);
-  }
+    const navigation = this.props.navigation;
 
-  componentWillUnmount () {
-    clearTimeout(this.timeoutHandle);
+    const resetAction = NavigationActions.reset({
+      index: 0,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Home' })
+      ]
+    })
+
+    setTimeout(nav, 2000);
+
+    function nav () {
+      navigation.dispatch(resetAction)
+    }
   }
 
   render () {
     return (
-      this.state.component
+      <SplashScreen />
     );
   }
 }
 
 export const ClusterBomb = StackNavigator({
-  Main: { screen: MainScreen },
-  Home: { screen: HomeScreen },
-  Add: { screen: AddScreen },
-  Settings: { screen: SettingsScreen }
+  Main: {
+    screen: MainScreen,
+    navigationOptions: {
+      header: false
+    }
+  },
+  Home: {
+    screen: HomeScreen,
+    navigationOptions: {
+      headerTitle: 'ClusterBomb'
+    }
+  },
+  Add: {
+    screen: AddScreen,
+    navigationOptions: {
+      headerTitle: 'Log a Headache'
+    }
+  },
+  Settings: {
+    screen: SettingsScreen,
+    navigationOptions: {
+      headerTitle: 'Settings'
+    }
+  }
 });
 
 AppRegistry.registerComponent('ClusterBomb', () => ClusterBomb);

@@ -1,4 +1,6 @@
 module.exports = function (noOfEntries) {
+  if (noOfEntries === 0) noOfEntries = 16;
+
   return {
     width: 270,
     height: 200,
@@ -18,7 +20,7 @@ module.exports = function (noOfEntries) {
       orient: 'bottom',
       label: {
         fontFamily: 'Arial',
-        fontSize: 8,
+        fontSize: 9,
         fontWeight: true,
         fill: '#ffffff'
       }
@@ -31,7 +33,7 @@ module.exports = function (noOfEntries) {
       orient: 'left',
       label: {
         fontFamily: 'Arial',
-        fontSize: 8,
+        fontSize: 9,
         fontWeight: true,
         fill: '#ffffff'
       }
