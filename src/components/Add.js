@@ -24,7 +24,7 @@ export class AddScreen extends Component {
       duration: 30,
       painLevel: 5,
       medication: 'no medication',
-      medTime: 15
+      medTime: 15,
     };
   };
 
@@ -104,9 +104,14 @@ export class AddScreen extends Component {
             title='SAVE'
             color='#fff'
             onPress={() => {
-              save(this.state, () => { Alert.alert('Saved') });
-              this.props.navigation.state.params.refresh();
-              this.props.navigation.dispatch(NavigationActions.back());
+              getLocation((location) => {
+                this.setState(location)
+                save(this.state, () => {
+                  Alert.alert('Saved')
+                  this.props.navigation.state.params.refresh();
+                  this.props.navigation.dispatch(NavigationActions.back());
+                });
+              });
             }}
           />
         </View>
@@ -123,10 +128,28 @@ function save (state, cb) {
     PainLevel: state.painLevel,
     Medication: state.medication,
     TimeToWork: state.medTime,
-    Month: state.date.split('-')[1].split('-')[0] - 1
+    Month: state.date.split('-')[1].split('-')[0] - 1,
+    Latitude: state.latitude,
+    Longitude: state.longitude
   };
 
   AsyncStorage.setItem(`${headache.Date}T${headache.Time}`, JSON.stringify(headache), cb);
+}
+
+function getLocation (cb) {
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      return cb({
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude
+      });
+    },
+    (error) => {
+      alert('Could not access your location')
+      cb()
+    },
+    { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 },
+  );
 }
 
 function buildDate () {
