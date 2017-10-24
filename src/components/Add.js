@@ -15,11 +15,11 @@ import Slider from 'react-native-slider';
 import { NavigationActions } from 'react-navigation'
 
 export class AddScreen extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      date: buildDate(),
+      date: props.navigation.state.params.date || buildDate(),
       time: buildTime(),
       duration: 30,
       painLevel: 5,
