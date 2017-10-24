@@ -34,12 +34,11 @@ export class HomeScreen extends Component {
         data.forEach((headache) => {
           headaches.push(JSON.parse(headache[1]));
         });
-
-        this.setState({ refreshing: false });
         this.setState({ headaches });
         this.setState({ chartData: getChartData(headaches) });
         this.setState({ chartOpts: chartOpts(headaches.length) });
         this._setMarkedDates();
+        this.setState({ refreshing: false });
       });
     });
   }
@@ -92,7 +91,14 @@ export class HomeScreen extends Component {
               style={styles.calendar}
               markedDates={this.state.markedDates}
               onDayPress={(day) => {
-                navigate('Add', {
+                if (this.state.markedDates[day.dateString]) {
+                  return navigate('ViewHeadaches', {
+                    headaches: this.state.headaches.filter((headache) => {
+                      return headache.Date === day.dateString;
+                    })
+                  });
+                }
+                return navigate('Add', {
                   refresh: this._refresh.bind(this),
                   date: day.dateString
                 });

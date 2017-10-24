@@ -23,12 +23,9 @@ export class AddScreen extends Component {
       time: buildTime(),
       duration: 30,
       painLevel: 5,
-      medication: 'None',
+      medication: 'no medication',
       medTime: 15
     };
-  };
-  static navigationOptions = {
-    title: 'Log a Headache'
   };
 
   render () {
@@ -90,7 +87,7 @@ export class AddScreen extends Component {
                 placeholder='i.e. Sumatriptan Injection'
                 onChangeText={(medication) => { this.setState({ medication }) }} />
             </View>
-            <Text style={styles.text}>Time to Take Effect: {this.state.medTime} minutes</Text>
+            <Text style={styles.text}>Time to Relieve Symptoms: {this.state.medTime} minutes</Text>
             <View style={styles.centered}>
               <Slider
                 style={styles.slider}

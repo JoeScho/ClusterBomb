@@ -11,6 +11,7 @@ import { SplashScreen } from './src/components/Splash.js';
 import { HomeScreen } from './src/components/Home.js';
 import { AddScreen } from './src/components/Add.js';
 import { SettingsScreen } from './src/components/Settings.js';
+import { HeadacheScreen } from './src/components/ViewHeadaches.js';
 
 export default class MainScreen extends Component {
   constructor(props) {
@@ -64,6 +65,12 @@ export const ClusterBomb = StackNavigator({
     screen: SettingsScreen,
     navigationOptions: {
       headerTitle: 'Settings'
+    }
+  },
+  ViewHeadaches: {
+    screen: HeadacheScreen,
+    navigationOptions: {
+      headerTitle: 'View Headaches'
     }
   }
 });

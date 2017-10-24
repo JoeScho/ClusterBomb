@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  KeyboardAvoidingView,
   AsyncStorage,
   View,
   Button,
@@ -10,15 +9,11 @@ import {
 import { NavigationActions } from 'react-navigation'
 
 export class SettingsScreen extends Component {
-  static navigationOptions = {
-    title: 'Settings'
-  };
-
   render () {
     const { navigate } = this.props.navigation;
 
     return (
-      <KeyboardAvoidingView behavior="padding" style={styles.container}>
+      <View style={styles.container}>
         <View style={styles.buttonContainer}>
           <Button
             title='DELETE ALL DATA'
@@ -45,7 +40,7 @@ export class SettingsScreen extends Component {
             }}
           />
         </View>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
