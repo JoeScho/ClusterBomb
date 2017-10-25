@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   Button,
-  StyleSheet
+  StyleSheet,
+  Image
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { NavigationActions } from 'react-navigation'
@@ -12,6 +13,16 @@ import { HomeScreen } from './src/components/Home.js';
 import { AddScreen } from './src/components/Add.js';
 import { SettingsScreen } from './src/components/Settings.js';
 import { HeadacheScreen } from './src/components/ViewHeadaches.js';
+import { MapScreen } from './src/components/Map.js';
+import { CalendarScreen } from './src/components/Calendar.js';
+import { ChartScreen } from './src/components/Chart.js';
+
+const styles = StyleSheet.create({
+  image: {
+    height: 35,
+    width: 24
+  }
+});
 
 export default class MainScreen extends Component {
   constructor(props) {
@@ -52,7 +63,10 @@ export const ClusterBomb = StackNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
-      headerTitle: 'ClusterBomb'
+      headerTitle: <Image
+        source={require('./src/images/logo.png')}
+        style={styles.image}
+      />
     }
   },
   Add: {
@@ -71,6 +85,24 @@ export const ClusterBomb = StackNavigator({
     screen: HeadacheScreen,
     navigationOptions: {
       headerTitle: 'View Headaches'
+    }
+  },
+  Map: {
+    screen: MapScreen,
+    navigationOptions: {
+      headerTitle: 'Map'
+    }
+  },
+  Calendar: {
+    screen: CalendarScreen,
+    navigationOptions: {
+      headerTitle: 'Calendar'
+    }
+  },
+  Chart: {
+    screen: ChartScreen,
+    navigationOptions: {
+      headerTitle: 'Chart'
     }
   }
 });

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   ScrollView,
-  AsyncStorage,
   View,
   FlatList,
   Text,
@@ -25,12 +24,21 @@ export class HeadacheScreen extends Component {
             data={this.props.navigation.state.params.headaches}
             renderItem={({ item }) =>
               <View style={styles.listContainer}>
-                <TouchableOpacity style={styles.listItem}>
+                <TouchableOpacity
+                  style={styles.listItem}
+                  onPress={() => {
+                    navigate('Map', { headaches: [item] })
+                  }}>
                   <Text style={styles.heading}>{item.Time} on {item.Date}</Text>
                   <Text style={styles.mainText}>
                     Lasted {item.Duration} minutes{'\n'}
                     Was a {item.PainLevel}/10 pain level{'\n'}
-                    You used {item.Medication} which took {item.TimeToWork} mintues to relieve symptoms
+                    You used {item.Medication !== 'none'
+                      ? `${item.Medication} which took ${item.TimeToWork} minutes to relieve symptoms \n`
+                      : 'no medication\n'}
+                    {item.Trigger !== 'none'
+                      ? `May have been triggered by ${item.Trigger}`
+                      : 'No known trigger'}
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -55,7 +63,7 @@ const styles = StyleSheet.create({
   },
   listItem: {
     alignSelf: 'stretch',
-    height: 110,
+    height: 130,
     padding: 10,
     backgroundColor: 'rgba(255,255,255,0.3)',
   },

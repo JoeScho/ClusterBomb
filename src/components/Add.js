@@ -23,8 +23,9 @@ export class AddScreen extends Component {
       time: buildTime(),
       duration: 30,
       painLevel: 5,
-      medication: 'no medication',
+      medication: 'none',
       medTime: 15,
+      trigger: 'none',
     };
   };
 
@@ -97,6 +98,13 @@ export class AddScreen extends Component {
                 step={5}
                 onValueChange={(value) => { this.setState({ medTime: value }) }} />
             </View>
+            <Text style={styles.text}>Potential Trigger:</Text>
+            <View style={styles.centered}>
+              <TextInput
+                style={styles.input}
+                placeholder='i.e. Lack of sleep'
+                onChangeText={(trigger) => { this.setState({ trigger }) }} />
+            </View>
           </KeyboardAvoidingView>
         </ScrollView>
         <View style={styles.buttonContainer}>
@@ -130,7 +138,8 @@ function save (state, cb) {
     TimeToWork: state.medTime,
     Month: state.date.split('-')[1].split('-')[0] - 1,
     Latitude: state.latitude,
-    Longitude: state.longitude
+    Longitude: state.longitude,
+    Trigger: state.trigger
   };
 
   AsyncStorage.setItem(`${headache.Date}T${headache.Time}`, JSON.stringify(headache), cb);
@@ -169,7 +178,9 @@ function buildTime () {
   const today = new Date();
 
   const HH = today.getHours();
-  const mm = today.getMinutes();
+  let mm = today.getMinutes();
+
+  if (mm < 10) mm = `0${mm}`;
 
   return `${HH}:${mm}`;
 }
