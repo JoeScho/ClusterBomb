@@ -7,7 +7,7 @@ import {
   Text,
   TouchableOpacity
 } from 'react-native';
-import MapView from 'react-native-maps';
+// import MapView from 'react-native-maps';
 
 export class MapScreen extends Component {
   constructor(props) {

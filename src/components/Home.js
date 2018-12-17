@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   Button,
-  Image,
   AsyncStorage
 } from 'react-native';
 
@@ -17,11 +16,11 @@ export class HomeScreen extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this._refresh();
   }
 
-  _refresh () {
+  _refresh() {
     this.setState({ refreshing: true });
     AsyncStorage.getAllKeys((err, keys) => {
       AsyncStorage.multiGet(keys, (__err, data) => {
@@ -35,7 +34,7 @@ export class HomeScreen extends Component {
     });
   }
 
-  render () {
+  render() {
     const { navigate } = this.props.navigation;
 
     return (
